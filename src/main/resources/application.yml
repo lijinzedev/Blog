@@ -1,2 +1,7 @@
 server:
   port: 8081
+github:
+  clientId: Iv1.2f3fffb417adde80
+  secret: 9a3f7f8d3d1169063bfdc6bf0bee2f52a9e0085f
+  redirectUrl: http://localhost:8887/callback
+
