@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" http-equiv="Content-Type" content="text/html">
+    <title>发布</title>
+    <script src="/js/jquery-3.5.1.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/css/blog.css">
+
+    <script src="/js/bootstrap.js" type="application/javascript"></script>
+</head>
+<body>
+<div th:insert="~{component/nav}"></div>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12  col-xs-12">
+            <h2><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span> 发起
+            </h2>
+            <hr/>
+            <form action="/publish" method="post">
+                <div class="form-group">
+                    <label for="title">问题标题 (简单扼要):</label>
+                    <input th:value="${title}" type="text" class="form-control" id="title" name="title"
+                           placeholder="问题标题...">
+                </div>
+                <div class="form-group">
+                    <label for="description">问题补充 (必填请参考右侧提示) </label>
+                    <textarea th:value="${description}" class="form-control" name="description" id="description"
+                              cols="30" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tag">添加标签</label>
+                    <input type="text" th:value="${tag}" class="form-control" id="tag" name="tag"
+                           placeholder="请输入标签,以`,`号分割...">
+                </div>
+                <div class="container-fluid main">
+                    <div class="row">
+                        <div class="alert alert-danger col-lg-9 col-md-12 col-sm-12  col-xs-12" role="alert"
+                             th:if="${error!=null}" th:text="${error}"></div>
+                        <div class="col-lg-12 col-md-12 col-sm-12  col-xs-12">
+                            <button type="submit" class="btn btn-success btn_publish" style="width: 120px; ">发布</button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="col-lg-3  col-md-12 col-sm-12  col-xs-12 ">
+            <h3>
+                啊吧,啊吧,啊吧,啊吧 <br>
+                1.啊吧,啊吧,啊吧,啊吧<br>
+                2.啊吧,啊吧,啊吧,啊吧<br>
+                3.啊吧,啊吧,啊吧,啊吧<br>
+                4.啊吧,啊吧,啊吧,啊吧<br>
+            </h3>
+        </div>
+    </div>
+</div>
+</body>
+</html>

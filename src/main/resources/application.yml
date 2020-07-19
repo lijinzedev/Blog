@@ -4,4 +4,14 @@ github:
   clientId: Iv1.2f3fffb417adde80
   secret: 9a3f7f8d3d1169063bfdc6bf0bee2f52a9e0085f
   redirectUrl: http://localhost:8887/callback
-
+spring:
+  datasource:
+    username: root
+    password: root
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:E:/blog
+mybatis:
+  type-aliases-package: com.curiosity.blog.module
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
