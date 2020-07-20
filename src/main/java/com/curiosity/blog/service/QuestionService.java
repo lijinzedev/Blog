@@ -50,4 +50,33 @@ public class QuestionService {
         paginationDto.setPagination(totalPage, page, size);
         return paginationDto;
     }
+
+    public PaginationDto list(Integer userId, Integer page, Integer size) {
+        int totalCount = questionMapper.countUser(userId);
+        int totalPage = 0;
+        if (totalCount % size == 0) {
+            totalPage = totalCount / size;
+        } else {
+            totalPage = totalCount / size + 1;
+        }
+        if (page > totalPage) page = totalPage;
+        if (page < 1) page = 1;
+
+        int spage = (page - 1) * size;
+        List<QuestionDto> collect = questionMapper.listUser(userId,spage, size).stream().map(question ->
+                {
+                    QuestionDto dto = new QuestionDto();
+                    BeanUtils.copyProperties(question, dto);
+                    dto.setUser(userMapper.findById(question.getCreator()));
+                    return dto;
+                }
+        ).collect(Collectors.toList());
+        PaginationDto paginationDto = new PaginationDto();
+        paginationDto.setQuestionList(collect);
+
+        paginationDto.setPagination(totalPage, page, size);
+        return paginationDto;
+
+
+    }
 }

@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.curiosity.blog.mapper.UserMapper">
     <insert id="insert" parameterType="User">
-   insert  into USER(name,account_id,token,GMT_CREATE,GMT_MODIFIED,AVATAR_URL)values(#{name},#{accountId},#{token},#{gmtCreate},#{gmtModify},#{avatorUrl});
+   insert  into USER(name,account_id,token,GMT_CREATE,GMT_MODIFIED,AVATAR_URL)values(#{name},#{accountId},#{token},#{gmtCreate},#{gmtModify},#{avatarUrl});
   </insert>
     <select id="findByToken" parameterType="string" resultType="User">
     select * from USER where TOKEN=#{token};

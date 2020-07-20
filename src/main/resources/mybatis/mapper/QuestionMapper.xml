@@ -5,13 +5,20 @@
 <mapper namespace="com.curiosity.blog.mapper.QuestionMapper">
     <insert id="create" parameterType="Question">
    insert  into QUESTION(TITLE,DESCRIPTION,GMT_CREATE,GMT_MODIFIED,CREATOR,TAG)
-    values(#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag});
+         values(#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag});
   </insert>
-<select id="list" resultType="Question" >
-    select * from QUESTION limit #{page},#{size}
-</select>
+    <select id="list" resultType="Question">
+            select * from QUESTION limit #{page},#{size}
+    </select>
 
     <select id="count" resultType="int">
-    select count(1) from QUESTION
-</select>
+             select count(1) from QUESTION
+    </select>
+    <select id="countUser" resultType="int" parameterType="int">
+             select count(1) from QUESTION where CREATOR=#{userId}
+    </select>
+    <select id="listUser" resultType="Question">
+            select * from QUESTION where CREATOR=#{userId} limit #{page},#{size}
+    </select>
+
 </mapper>
