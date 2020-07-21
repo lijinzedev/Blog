@@ -19,4 +19,6 @@ public interface QuestionMapper {
     int count();
     int countUser(Integer userId);
     List<Question>  listUser(@Param("userId") Integer userId, @Param("page") Integer spage, @Param("size")Integer size);
+
+    Question getById(@Param("id") Integer id);
 }

@@ -20,5 +20,7 @@
     <select id="listUser" resultType="Question">
             select * from QUESTION where CREATOR=#{userId} limit #{page},#{size}
     </select>
-
+    <select id="getById" resultType="Question">
+            select * from QUESTION where ID=#{id}
+    </select>
 </mapper>

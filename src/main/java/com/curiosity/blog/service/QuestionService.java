@@ -4,10 +4,13 @@ import com.curiosity.blog.dto.PaginationDto;
 import com.curiosity.blog.dto.QuestionDto;
 import com.curiosity.blog.mapper.QuestionMapper;
 import com.curiosity.blog.mapper.UserMapper;
+import com.curiosity.blog.module.Question;
+import com.curiosity.blog.module.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,7 +66,7 @@ public class QuestionService {
         if (page < 1) page = 1;
 
         int spage = (page - 1) * size;
-        List<QuestionDto> collect = questionMapper.listUser(userId,spage, size).stream().map(question ->
+        List<QuestionDto> collect = questionMapper.listUser(userId, spage, size).stream().map(question ->
                 {
                     QuestionDto dto = new QuestionDto();
                     BeanUtils.copyProperties(question, dto);
@@ -78,5 +81,14 @@ public class QuestionService {
         return paginationDto;
 
 
+    }
+
+    public QuestionDto getById(Integer id) {
+        Question question = questionMapper.getById(id);
+        QuestionDto dto = new QuestionDto();
+        BeanUtils.copyProperties(question, dto);
+        User user = userMapper.findById(question.getCreator());
+        dto.setUser(user);
+        return dto;
     }
 }

@@ -30,7 +30,7 @@ public class SessionInterceptor implements HandlerInterceptor {
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
                 String token = Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("token"))
-                        .map(cookie -> cookie.getValue()).findFirst().get();
+                        .map(cookie -> cookie.getValue()).findFirst().orElse("");
                 User user = null;
                 if (!StringUtils.isEmpty(token)) {
                     user = userMapper.findByToken(token);
@@ -41,6 +41,7 @@ public class SessionInterceptor implements HandlerInterceptor {
                 }
             }
         }
+
         return true;
     }
 

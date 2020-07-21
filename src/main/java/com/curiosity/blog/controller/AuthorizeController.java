@@ -6,6 +6,7 @@ import com.curiosity.blog.dto.GithubUserDto;
 import com.curiosity.blog.mapper.UserMapper;
 import com.curiosity.blog.module.User;
 import com.curiosity.blog.provider.GitHubProvider;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,6 +59,7 @@ public class AuthorizeController {
             // 登录成功 写入cookie 和 session
             response.addCookie(new Cookie("token",token));
             request.getSession().setAttribute("user", user);
+
         }
         return "redirect:/";
     }
