@@ -15,7 +15,8 @@ public class QuestionController {
     private QuestionService service;
 
     @GetMapping("/question/{id}")
-    public String question(@PathVariable("id") Integer id, Model model) {
+    public String question(@PathVariable("id") Long id, Model model) {
+
         service.incView(id);
         QuestionDto dto = service.getById(id);
         // 每次访问的时候累加评论数

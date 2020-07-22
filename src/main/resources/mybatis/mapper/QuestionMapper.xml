@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.curiosity.blog.mapper.QuestionMapper">
     <insert id="create" parameterType="Question">
-   insert  into QUESTION(TITLE,DESCRIPTION,GMT_CREATE,GMT_MODIFIED,CREATOR,TAG)
-         values(#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag});
+   insert  into QUESTION(TITLE,DESCRIPTION,GMT_CREATE,GMT_MODIFIED,CREATOR,TAG,VIEW_COUNT,COMMENT_COUNT)
+         values(#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag},#{viewCount},#{commentCount});
   </insert>
     <select id="list" resultType="Question">
             select * from QUESTION limit #{page},#{size}
@@ -14,7 +14,7 @@
     <select id="count" resultType="int">
              select count(1) from QUESTION
     </select>
-    <select id="countUser" resultType="int" parameterType="int">
+    <select id="countUser" resultType="int" >
              select count(1) from QUESTION where CREATOR=#{userId}
     </select>
     <select id="listUser" resultType="Question">
@@ -24,6 +24,15 @@
             select * from QUESTION where ID=#{id}
     </select>
     <update id="updateViewCount" parameterType="Question">
-            update   QUESTION  set QUESTION.VIEW_COUNT=#{viewCount}  where ID=#{id}
+    update   QUESTION  set QUESTION.VIEW_COUNT=VIEW_COUNT+1  where ID=#{id}
+ </update>
+
+    <update id="updataById" parameterType="Question">
+    update QUESTION set TITLE=#{title},DESCRIPTION=#{description},GMT_MODIFIED=#{gmtModified},TAG=#{tag} where ID=#{id};
     </update>
+
+    <update id="incCommenCount" parameterType="Question">
+    update   QUESTION  set QUESTION.COMMENT_COUNT=COMMENT_COUNT+1  where ID=#{id}
+ </update>
+
 </mapper>

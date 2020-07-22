@@ -3,10 +3,9 @@ package com.curiosity.blog.controller;
 import com.curiosity.blog.config.GitHubAuthorizeConfig;
 import com.curiosity.blog.dto.AccessTokenDto;
 import com.curiosity.blog.dto.GithubUserDto;
-import com.curiosity.blog.mapper.UserMapper;
 import com.curiosity.blog.module.User;
 import com.curiosity.blog.provider.GitHubProvider;
-import org.springframework.beans.BeanUtils;
+import com.curiosity.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +30,7 @@ public class AuthorizeController {
     @Autowired
     private GitHubAuthorizeConfig gitHubAuthorizeConfig;
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @GetMapping("/callback")
     public String callback(@RequestParam("code") String code,
@@ -52,16 +51,21 @@ public class AuthorizeController {
             user.setToken(token);
             user.setName(userDto.getName());
             user.setAccountId(String.valueOf(userDto.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModify(user.getGmtCreate());
             user.setAvatarUrl(userDto.getAvatar_url());
-            userMapper.insert(user);
+            userService.createOrUpdata(user);
             // 登录成功 写入cookie 和 session
-            response.addCookie(new Cookie("token",token));
+            response.addCookie(new Cookie("token", token));
             request.getSession().setAttribute("user", user);
 
         }
         return "redirect:/";
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+
+        request.getSession().removeAttribute("user");
+        response.addCookie(new Cookie("token", ""));
+        return "redirect:/";
+    }
 }

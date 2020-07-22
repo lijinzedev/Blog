@@ -14,13 +14,20 @@ public interface QuestionMapper {
 
     int create(Question question);
 
-    List<Question> list(@Param("page") Integer page,@Param("size") Integer size);
+    List<Question> list(@Param("page") Integer page, @Param("size") Integer size);
 
     int count();
-    int countUser(Integer userId);
-    List<Question>  listUser(@Param("userId") Integer userId, @Param("page") Integer spage, @Param("size")Integer size);
 
-    Question getById(@Param("id") Integer id);
+    int countUser(Long userId);
+
+    List<Question> listUser(@Param("userId") Long userId, @Param("page") Integer spage, @Param("size") Integer size);
+
+    Question getById(@Param("id") Long id);
 
     int updateViewCount(Question question);
+
+    void updataById(Question question);
+
+    int incCommenCount(Question question);
 }
+

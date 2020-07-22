@@ -10,7 +10,13 @@
     select * from USER where TOKEN=#{token};
   </select>
 
-    <select id="findById" parameterType="int" resultType="User">
+    <select id="findById" parameterType="long" resultType="User">
     select * from USER where ID=#{creator};
   </select>
+    <select id="findByAccountId" parameterType="string" resultType="User">
+    select * from USER where ACCOUNT_ID=#{accountId};
+  </select>
+    <update id="updata"  parameterType="User">
+        update  USER set ACCOUNT_ID=#{accountId},NAME=#{name},TOKEN=#{token},GMT_MODIFIED=#{gmtModify},AVATAR_URL=#{avatarUrl} where  ID=#{id}
+    </update>
 </mapper>

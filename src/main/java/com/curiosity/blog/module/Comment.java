@@ -7,17 +7,18 @@ import lombok.NoArgsConstructor;
 /**
  * @description:
  * @author: lijinze
- * @createDate: 2020/7/18
+ * @createDate: 2020/7/21
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
-    private Long id;
-    private String name;
-    private String accountId;
-    private String token;
-    private String avatarUrl;
+public class Comment {
+    public Long id;
+    private Long parentId;
+    private Integer type;
+    private Long commentor;
     private Long gmtCreate;
-    private Long gmtModify;
+    private Long gmtModified;
+    private Integer likeCount;
+    private String content;
 }
