@@ -3,9 +3,10 @@ package com.curiosity.blog.provider;
 import com.alibaba.fastjson.JSON;
 import com.curiosity.blog.dto.AccessTokenDto;
 import com.curiosity.blog.dto.GithubUserDto;
+import com.curiosity.blog.exception.CustomizeErrorCodeImpl;
+import com.curiosity.blog.exception.CustomsizeException;
 import okhttp3.*;
 import org.springframework.stereotype.Component;
-
 
 import java.io.IOException;
 
@@ -42,7 +43,7 @@ public class GitHubProvider {
     public GithubUserDto githubUserDto(String accessToken) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://api.github.com/user?access_token="+accessToken)
+                .url("https://api.github.com/user?access_token=" + accessToken)
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
@@ -52,6 +53,6 @@ public class GitHubProvider {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        throw new CustomsizeException(CustomizeErrorCodeImpl.NETWORK_NO_CONNECTION);
     }
 }

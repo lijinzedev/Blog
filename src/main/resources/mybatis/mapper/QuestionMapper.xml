@@ -23,4 +23,7 @@
     <select id="getById" resultType="Question">
             select * from QUESTION where ID=#{id}
     </select>
+    <update id="updateViewCount" parameterType="Question">
+            update   QUESTION  set QUESTION.VIEW_COUNT=#{viewCount}  where ID=#{id}
+    </update>
 </mapper>

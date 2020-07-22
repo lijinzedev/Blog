@@ -2,6 +2,7 @@ package com.curiosity.blog.service;
 
 import com.curiosity.blog.dto.PaginationDto;
 import com.curiosity.blog.dto.QuestionDto;
+import com.curiosity.blog.exception.CustomsizeException;
 import com.curiosity.blog.mapper.QuestionMapper;
 import com.curiosity.blog.mapper.UserMapper;
 import com.curiosity.blog.module.Question;
@@ -10,9 +11,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.curiosity.blog.exception.CustomizeErrorCodeImpl.QUESTION_NOT_FOUNT;
 
 /**
  * @description:
@@ -85,10 +87,19 @@ public class QuestionService {
 
     public QuestionDto getById(Integer id) {
         Question question = questionMapper.getById(id);
+        if (question == null) {
+            throw new CustomsizeException(QUESTION_NOT_FOUNT);
+        }
         QuestionDto dto = new QuestionDto();
         BeanUtils.copyProperties(question, dto);
         User user = userMapper.findById(question.getCreator());
         dto.setUser(user);
         return dto;
+    }
+
+    public void incView(Integer id) {
+        Question question = questionMapper.getById(id);
+        question.setViewCount(question.getViewCount()+1);
+        questionMapper.updateViewCount(question);
     }
 }

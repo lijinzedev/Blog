@@ -16,8 +16,12 @@ public class QuestionController {
 
     @GetMapping("/question/{id}")
     public String question(@PathVariable("id") Integer id, Model model) {
+        service.incView(id);
         QuestionDto dto = service.getById(id);
+        // 每次访问的时候累加评论数
+
         model.addAttribute("question", dto);
+
         return "question";
     }
 }
