@@ -9,6 +9,7 @@ import com.curiosity.blog.module.Comment;
 import com.curiosity.blog.module.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @description:
@@ -22,6 +23,7 @@ public class CommentService {
     @Autowired
     private QuestionMapper questionMapper;
 
+    @Transactional
     public void insert(Comment comment) {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
             throw new CustomsizeException(CustomizeErrorCodeImpl.TARGET_PARAM_NOT_FOUNT);
