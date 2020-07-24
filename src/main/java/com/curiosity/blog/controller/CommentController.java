@@ -1,10 +1,8 @@
 package com.curiosity.blog.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.curiosity.blog.dto.CommentDto;
+import com.curiosity.blog.dto.CommentCreateDto;
 import com.curiosity.blog.dto.ResultDto;
 import com.curiosity.blog.exception.CustomizeErrorCodeImpl;
-import com.curiosity.blog.mapper.CommentMapper;
 import com.curiosity.blog.module.Comment;
 import com.curiosity.blog.module.User;
 import com.curiosity.blog.service.CommentService;
@@ -32,7 +30,7 @@ public class CommentController {
     private CommentService commentService;
 
     @PostMapping("/comment")
-    public Object post(@RequestBody CommentDto commentDto, HttpServletRequest request) {
+    public Object post(@RequestBody CommentCreateDto commentDto, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             return ResultDto.errorof(CustomizeErrorCodeImpl.USER_NOT_FOUNT);

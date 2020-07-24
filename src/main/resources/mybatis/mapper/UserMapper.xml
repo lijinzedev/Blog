@@ -19,4 +19,16 @@
     <update id="updata"  parameterType="User">
         update  USER set ACCOUNT_ID=#{accountId},NAME=#{name},TOKEN=#{token},GMT_MODIFIED=#{gmtModify},AVATAR_URL=#{avatarUrl} where  ID=#{id}
     </update>
+
+    <select id=" findByListId" parameterType="list" resultType="User">
+    select * from USER
+    <where>
+        id in
+        <foreach collection="list" item="entity" separator="," open="(" close=")" index="index">
+            #{entity}
+        </foreach>
+
+    </where>
+  </select>
+
 </mapper>

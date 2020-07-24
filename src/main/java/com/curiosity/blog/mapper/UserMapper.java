@@ -5,6 +5,8 @@ import com.curiosity.blog.module.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @description:
  * @author: lijinze
@@ -24,4 +26,6 @@ public interface UserMapper {
     User findById(Long creator);
 
     void updata(User user);
+
+    List<User> findByListId(List<Long> userIds);
 }

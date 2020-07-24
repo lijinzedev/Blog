@@ -10,4 +10,7 @@
     <select id="selectByParentId" resultType="Comment">
     select * from COMMENT where PARENT_ID=#{parentId}
     </select>
+    <select id="selectByQuestionAndType" resultType="Comment" parameterType="map">
+    select * from COMMENT where ID=#{id} and TYPE=#{type}
+    </select>
 </mapper>
