@@ -1,5 +1,6 @@
 package com.curiosity.blog.interceptor;
 
+import com.curiosity.blog.mapper.NotificationMapper;
 import com.curiosity.blog.mapper.UserMapper;
 import com.curiosity.blog.module.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,8 @@ import java.util.Arrays;
 public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
     UserMapper userMapper;
-
+    @Autowired
+    private NotificationMapper notificationMapper;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Object user1 = request.getSession().getAttribute("user");
@@ -37,6 +39,8 @@ public class SessionInterceptor implements HandlerInterceptor {
                 }
                 if (user != null) {
                     request.getSession().setAttribute("user", user);
+                    Long unreadCount = notificationMapper.unreadCount(user.getId());
+                    request.getSession().setAttribute("unreadCount", unreadCount);
 
                 }
             }

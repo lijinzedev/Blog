@@ -10,7 +10,10 @@ import com.curiosity.blog.module.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +32,7 @@ public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
 
-    public PaginationDto list(Integer page, Integer size) {
+    public PaginationDto list(Integer page, Integer size, String tag) {
         int totalCount = questionMapper.count();
         int totalPage = 0;
         if (totalCount % size == 0) {
@@ -41,7 +44,7 @@ public class QuestionService {
         if (page < 1) page = 1;
 
         int spage = (page - 1) * size;
-        List<QuestionDto> collect = questionMapper.list(spage, size).stream().map(question ->
+        List<QuestionDto> collect = questionMapper.list(spage, size, tag).stream().map(question ->
                 {
                     QuestionDto dto = new QuestionDto();
                     BeanUtils.copyProperties(question, dto);
@@ -50,7 +53,7 @@ public class QuestionService {
                 }
         ).collect(Collectors.toList());
         PaginationDto paginationDto = new PaginationDto();
-        paginationDto.setQuestionList(collect);
+        paginationDto.setData(collect);
 
         paginationDto.setPagination(totalPage, page, size);
         return paginationDto;
@@ -77,7 +80,7 @@ public class QuestionService {
                 }
         ).collect(Collectors.toList());
         PaginationDto paginationDto = new PaginationDto();
-        paginationDto.setQuestionList(collect);
+        paginationDto.setData(collect);
 
         paginationDto.setPagination(totalPage, page, size);
         return paginationDto;
@@ -101,16 +104,28 @@ public class QuestionService {
         Question question = questionMapper.getById(id);
         questionMapper.updateViewCount(question);
     }
+
     public void createOrUpdate(Question question) {
-        if (question.getId()==null){
+        if (question.getId() == null) {
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
             question.setViewCount(0);
             question.setCommentCount(0);
             questionMapper.create(question);
-        }else {
+        } else {
             question.setGmtModified(question.getGmtCreate());
             questionMapper.updataById(question);
         }
+    }
+
+    public List<QuestionDto> selectRelated(QuestionDto questionDto) {
+        if (StringUtils.isEmpty(questionDto.getTag())) {
+            return new ArrayList<>();
+        }
+        Question question = new Question();
+        question.setId(questionDto.getId());
+        question.setTag(Arrays.stream(questionDto.getTag().split(",")).collect(Collectors.joining("|")));
+        return questionMapper.selectRelated(question).stream().map(QuestionDto::convert).collect(Collectors.toList());
+
     }
 }

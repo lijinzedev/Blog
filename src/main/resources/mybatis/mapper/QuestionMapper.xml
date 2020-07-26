@@ -8,13 +8,20 @@
          values(#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tag},#{viewCount},#{commentCount});
   </insert>
     <select id="list" resultType="Question">
-            select * from QUESTION limit #{page},#{size}
+        select * from QUESTION
+        <where>
+            <if test="tag!=null and tag!=''">
+                tag like concat('%',#{tag},'%')
+            </if>
+
+        </where>
+        order by GMT_CREATE desc limit #{page},#{size}
     </select>
 
     <select id="count" resultType="int">
              select count(1) from QUESTION
     </select>
-    <select id="countUser" resultType="int" >
+    <select id="countUser" resultType="int">
              select count(1) from QUESTION where CREATOR=#{userId}
     </select>
     <select id="listUser" resultType="Question">
@@ -34,5 +41,10 @@
     <update id="incCommenCount" parameterType="Question">
     update   QUESTION  set QUESTION.COMMENT_COUNT=COMMENT_COUNT+1  where ID=#{id}
  </update>
+
+    <select id="selectRelated" parameterType="Question" resultType="Question">
+        select * from QUESTION WHERE  TAG REGEXP #{tag} and id!=#{id};
+
+    </select>
 
 </mapper>

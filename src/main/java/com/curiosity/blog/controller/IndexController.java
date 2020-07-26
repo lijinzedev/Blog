@@ -26,12 +26,13 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request, Model model,
+                        @RequestParam(name = "tag",defaultValue = "") String tag,
                         @RequestParam(name = "page",defaultValue = "1")Integer page,
                         @RequestParam(name = "size",defaultValue = "5")Integer size
     ) {
 
 
-        PaginationDto paginationDto = questionService.list(page,size);
+        PaginationDto paginationDto = questionService.list(page,size,tag);
         model.addAttribute("pagination", paginationDto);
         return "index";
     }

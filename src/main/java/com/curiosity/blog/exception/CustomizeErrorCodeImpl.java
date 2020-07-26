@@ -7,7 +7,9 @@ public enum CustomizeErrorCodeImpl implements CustomizeErrorCode {
     USER_NOT_FOUNT(2003, "未登录不能进行评论，请先登录"),
     SYS_ERROR(2004, "服务器炸了"),
     TYPE_PARAM_WRONG(2005, "类型不匹配"),
-    COMMENT_NOT_FOUNT(2006, "回复的评论不存在了要不换个试试？");
+    COMMENT_NOT_FOUNT(2006, "回复的评论不存在了要不换个试试？"),
+    Comment_NOT_NULL(2007, "评论不能为空"),
+    READ_NOTIFICATION_FILD(2008, "操作有问题");
     private String msg;
     private Integer code;
 

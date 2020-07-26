@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.curiosity.blog.mapper.NotificationMapper">
+    <insert id="insert" parameterType="Notification">
+        insert into NOTIFICATION(NOTIFIER, RECEIVER, OUTERID, TYPE, GMT_CREATE, NOTIFIER_NAME, OUTER_TITLE,STATUS)values (#{notifier},#{receiver},#{outerid},#{type},#{gmtCreate},#{notifierName},#{outerTitle},#{status});
+    </insert>
+    <select id="countByUser" resultType="int" parameterType="long">
+    select  count(1) from NOTIFICATION where RECEIVER=#{userId}
+    </select>
+    <select id="listByPage" resultType="Notification">
+            select * from NOTIFICATION where RECEIVER=#{userId} order by GMT_CREATE desc limit #{page},#{size}
+    </select>
+    <select id="unreadCount" resultType="long">
+            select count(1) from NOTIFICATION where RECEIVER=#{userId} and STATUS=0;
+    </select>
+    <select id="selectById" parameterType="long" resultType="Notification">
+            select * from NOTIFICATION where ID=#{id}
+    </select>
+    <update id="updataStatus" parameterType="Notification">
+        update NOTIFICATION set STATUS=#{status} where id=#{id};
+    </update>
+
+</mapper>

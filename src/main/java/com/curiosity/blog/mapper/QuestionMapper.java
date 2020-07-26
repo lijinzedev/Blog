@@ -1,5 +1,6 @@
 package com.curiosity.blog.mapper;
 
+import com.curiosity.blog.dto.QuestionDto;
 import com.curiosity.blog.module.Question;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,7 +15,7 @@ public interface QuestionMapper {
 
     int create(Question question);
 
-    List<Question> list(@Param("page") Integer page, @Param("size") Integer size);
+    List<Question> list(@Param("page") Integer page, @Param("size") Integer size, @Param("tag") String tag);
 
     int count();
 
@@ -29,5 +30,7 @@ public interface QuestionMapper {
     void updataById(Question question);
 
     int incCommenCount(Question question);
+
+    List<Question> selectRelated(Question question);
 }
 

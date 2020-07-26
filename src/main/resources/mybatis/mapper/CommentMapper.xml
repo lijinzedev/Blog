@@ -8,9 +8,14 @@
     insert into COMMENT(PARENT_ID,TYPE,COMMENTOR,CONTENT,GMT_CREATE,GMT_MODIFIED)values (#{parentId},#{type},#{commentor},#{content},#{gmtCreate},#{gmtModified});
 </insert>
     <select id="selectByParentId" resultType="Comment">
-    select * from COMMENT where PARENT_ID=#{parentId}
+    select * from COMMENT where id=#{parentId}
     </select>
     <select id="selectByQuestionAndType" resultType="Comment" parameterType="map">
-    select * from COMMENT where ID=#{id} and TYPE=#{type}
+    select * from COMMENT where PARENT_ID=#{id} and TYPE=#{type} order by GMT_CREATE desc
     </select>
+    <update id="incCommentCount"  parameterType="Comment">
+    update   COMMENT  set COMMENT_COUNT=COMMENT_COUNT+1  where ID=#{id}
+    </update>
+
+
 </mapper>

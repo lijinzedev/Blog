@@ -1,5 +1,6 @@
 package com.curiosity.blog.controller;
 
+import com.curiosity.blog.cache.TagCache;
 import com.curiosity.blog.dto.CommentDto;
 import com.curiosity.blog.dto.QuestionDto;
 import com.curiosity.blog.enums.CommentTypeEnum;
@@ -24,12 +25,15 @@ public class QuestionController {
     @GetMapping("/question/{id}")
     public String question(@PathVariable("id") Long id, Model model) {
 
-        // 每次访问的时候累加评论数
         QuestionDto dto = questionService.getById(id);
+        // 每次访问的时候累加浏览
         questionService.incView(id);
         List<CommentDto> commentDtos = commentService.listByQuestionIdAndType(id, CommentTypeEnum.QUESTION);
+        List<QuestionDto> relatedQuestion = questionService.selectRelated(dto);
         model.addAttribute("question", dto);
-
+        model.addAttribute("coments", commentDtos);
+        model.addAttribute("relatedQuestion", relatedQuestion);
+        model.addAttribute("tags", TagCache.get());
         return "question";
     }
 

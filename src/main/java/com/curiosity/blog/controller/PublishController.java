@@ -1,5 +1,6 @@
 package com.curiosity.blog.controller;
 
+import com.curiosity.blog.cache.TagCache;
 import com.curiosity.blog.dto.QuestionDto;
 import com.curiosity.blog.module.Question;
 import com.curiosity.blog.module.User;
@@ -28,11 +29,12 @@ public class PublishController {
     @Autowired
     private QuestionService questionService;
 
+
     @GetMapping("/publish")
-    public String publish() {
+    public String publish(Model model) {
+        model.addAttribute("tags", TagCache.get());
         return "publish";
     }
-
     @GetMapping("/publish/{id}")
     public String edit(@PathVariable(name = "id") Long id, Model model) {
         QuestionDto question = questionService.getById(id);
@@ -60,6 +62,9 @@ public class PublishController {
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag);
+
+
+
         if (StringUtils.isEmpty(title)) {
             model.addAttribute("error", "标题不能为空");
             return "publish";
@@ -73,7 +78,11 @@ public class PublishController {
             return "publish";
         }
 
-
+        String invalid = TagCache.filterInvalid(tag);
+        if (StringUtils.isEmpty(invalid)) {
+            model.addAttribute("error", "输入非法标签:" );
+            return "publish";
+        }
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             model.addAttribute("error", "用户未登录");

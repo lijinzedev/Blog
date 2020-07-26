@@ -1,9 +1,11 @@
 package com.curiosity.blog.dto;
 
+import com.curiosity.blog.module.Question;
 import com.curiosity.blog.module.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 /**
  * @description:
@@ -19,7 +21,7 @@ public class QuestionDto {
     private String description;
     private Long gmtCreate;
     private Long gmtModified;
-    private int creator;
+    private Long creator;
     // 评论数
     private int commentCount;
     // 浏览数
@@ -28,4 +30,10 @@ public class QuestionDto {
     private int likeCount;
     private String tag;
     private User user;
+
+    public static QuestionDto convert(Question question) {
+        QuestionDto questionDto = new QuestionDto();
+        BeanUtils.copyProperties(question, questionDto);
+        return questionDto;
+    }
 }

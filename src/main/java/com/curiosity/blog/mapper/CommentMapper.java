@@ -15,4 +15,6 @@ public interface CommentMapper {
     Comment selectByParentId(Long parentId);
 
     List<Comment> selectByQuestionAndType(Map<String, Object> map);
+
+    int incCommentCount(Comment dbComment);
 }
